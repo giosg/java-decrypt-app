@@ -10,9 +10,13 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.ParseException;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.security.PrivateKey;
+import java.util.ArrayList;
+
 import javax.crypto.SecretKey;
 
 import org.json.JSONArray;
@@ -21,9 +25,9 @@ import org.json.JSONObject;
 /**
  * Chat message decryption example app
  */
-public class App
-{
+public class App {
     private static String appNameAndUsage = "-k <privatekey.pem> -p <privatekey password> -c <chat.json> -m <messages.json> -o <output file>";
+
     public static void main( String[] args )
     {
         System.out.println( "Hello from decrypter!\n" );
@@ -89,17 +93,31 @@ public class App
                 JSONObject messageData = getChatMessages(messagesJsonPath);
                 JSONArray messages = messageData.getJSONArray("results");
 
+                System.out.println("************* Messages *************\n\n");
+                boolean outputToFile = cmd.hasOption("out");
+                ArrayList<String> outputMessages = new ArrayList<>();
                 for (int i = 0; i < messages.length(); i++) {
                     JSONObject message = messages.getJSONObject(i);
                     try {
-                        System.out.println("message: " + message.toString());
+                        // System.out.println("message: " + message.toString());
                         String base64EncryptedChatMessage = message.getString("encrypted_message").replaceAll("\n", "").replaceAll("\r", "");
                         String decryptedMessage = AESDecryption.decrypt(base64EncryptedChatMessage, aesKey);
-                        System.out.println("decryptedMessage: " + decryptedMessage);
+                        String pubNameField = "sender_public_name";
+                        String senderName = (message.has(pubNameField) && !message.isNull(pubNameField)) ? message.getString(pubNameField) : "Visitor";
+                        String senderId = message.getString("sender_id");
+                        String name = senderId + " : " + senderName;
+                        if (!outputToFile) {
+                            System.out.println(name + " -> " + decryptedMessage);
+                        } else {
+                            message.put("decrypted_message", decryptedMessage);
+                            outputMessages.add(message.toString(2));
+                        }
+
                     } catch (org.json.JSONException e) {
                         if (message.getString("type") == "msg") {
                             // It is normal that it doesn't exist for join and leave type messages for example
-                            System.err.println("Unexpectetly did not find exncrypted content: " + e.getMessage());
+                            System.err.println("Unexpectetly did not find exncrypted content: ");
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -146,5 +164,18 @@ public class App
         String json = contentBuilder.toString();
         JSONObject messages = new JSONObject(json);
         return messages;
+    }
+
+    public static void writeOutputToFile(String outputFilePath, ArrayList<String> outputMessages) {
+        // Write the ArrayList to the file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath))) {
+            for (String item : outputMessages) {
+                writer.write(item);
+                writer.newLine(); // Add a new line after each item
+            }
+            System.out.println("List written to file " + outputFilePath + " successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

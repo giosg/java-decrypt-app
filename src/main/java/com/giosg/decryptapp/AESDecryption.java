@@ -42,11 +42,6 @@ public class AESDecryption {
 
         byte[] chipherTextBytes = Arrays.copyOfRange(dataBytes, AES_BLOCK_SIZE, dataBytes.length - HMAC_LEN);
 
-        System.out.println("chipherText: " + chipherText.length);
-        System.out.println("dataBytes: " + dataBytes.length);
-        System.out.println("ivBytes: " + ivBytes.length);
-        System.out.println("chipherTextBytes: " + chipherTextBytes.length);
-
         cipher.init(Cipher.DECRYPT_MODE, aesKey, iv);
 
         byte[] decryptedBytes = cipher.doFinal(chipherTextBytes);
