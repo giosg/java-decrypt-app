@@ -93,8 +93,15 @@ public class App {
                 JSONObject messageData = getChatMessages(messagesJsonPath);
                 JSONArray messages = messageData.getJSONArray("results");
 
-                System.out.println("************* Messages *************\n\n");
+
                 boolean outputToFile = cmd.hasOption("out");
+
+                if (!outputToFile) {
+                    System.out.println("************* Messages *************\n\n");
+                } else {
+                    System.out.println("Writing to file: " + cmd.getOptionValue("out"));
+                }
+
                 ArrayList<String> outputMessages = new ArrayList<>();
                 for (int i = 0; i < messages.length(); i++) {
                     JSONObject message = messages.getJSONObject(i);
@@ -120,6 +127,9 @@ public class App {
                             e.printStackTrace();
                         }
                     }
+                }
+                if (outputToFile) {
+                    writeOutputToFile(cmd.getOptionValue("out"), outputMessages);
                 }
 
             } catch (Exception e) {
