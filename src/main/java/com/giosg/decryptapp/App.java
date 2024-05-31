@@ -73,7 +73,7 @@ public class App
             try {
                 PrivateKey privateKey = PEMKeyDecryption.loadPrivateKey(pemFilePath, pemFilePassword);
 
-                String base64EncryptedText = getEncryptedSymmetricKeyFromChat(chatJsonPath); //"Why2w63niQ+be1IuW4Lwxc7HBaJel160R6JtsP7cIRlM/odEbW50MHghOYgf7+VH0f5PFktqxVtQ\nnSOknNKUlDjukJzBKLTXRJcL/NRE3aKHmBi2WAdxL4A6QrRYzSW7k6fAIu99/ExBKmVJBhdB9bZQ\nTzYvL7hBliryog1sZAw/H1+KCJlqW2GYfgz+LTph6D4BjNFRj7zgKyAYbS+pMRYRmYNxTuQjbr2W\nwv9gocRNC0kRBkcovMZ8/hdH1kNr336ZJAsAo59yZBvpbtQ+nw+ATtmNGJERY2dkfLDUPGgXXKCq\nPkgln++DDKxM9aAvKxrPiHVI3httTEWCSbvJiQ==\n".replaceAll("\n", "").replaceAll("\r", "");
+                String base64EncryptedText = getEncryptedSymmetricKeyFromChat(chatJsonPath);
                 byte[] decryptedBytes = PEMKeyDecryption.decrypt(base64EncryptedText, privateKey);
                 String decryptedAESKey = new String(decryptedBytes, "UTF-8");
 
@@ -103,9 +103,7 @@ public class App
                         }
                     }
                 }
-                // String base64EncryptedChatMessage = "MDAwMDDQ9Mn5kH7v4BXslkglavGSYr0A2Uq1lMSYtYG/BZ5yVhy7rps46bfNuQS8/56ULEsN7pwW\n".replaceAll("\n", "").replaceAll("\r", "");
-                // String decryptedMessage = AESDecryption.decrypt(base64EncryptedChatMessage, aesKey);
-                // System.out.println("decryptedMessage: " + decryptedMessage);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
