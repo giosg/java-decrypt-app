@@ -3,7 +3,6 @@ package com.giosg.decryptapp;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.Option.Builder;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -81,13 +80,13 @@ public class App {
                 byte[] decryptedBytes = PEMKeyDecryption.decrypt(base64EncryptedText, privateKey);
                 String decryptedAESKey = new String(decryptedBytes, "UTF-8");
 
-                System.out.println("decryptedAESKey: " + decryptedAESKey);
+                // System.out.println("decryptedAESKey: " + decryptedAESKey);
 
                 JSONObject AESKeyJson = new JSONObject(decryptedAESKey);
                 String aesKeyString = AESKeyJson.getString("aesKeyString");
                 SecretKey aesKey = AESDecryption.createAESKey(aesKeyString);
 
-                System.out.println("aesKey bytes length: " + aesKey.getEncoded().length);
+                // System.out.println("aesKey bytes length: " + aesKey.getEncoded().length);
 
 
                 JSONObject messageData = getChatMessages(messagesJsonPath);
