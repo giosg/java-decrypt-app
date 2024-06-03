@@ -21,10 +21,10 @@ Project comes with some example data so you can test it with the following comma
 
 ## Installation and building the app
 
-Make sure you have Maven installed:
+Make sure you have Maven installed (version 3.6.3 was used to build this app):
 `mvn --version`
 
-Install depenndencies:
+Install dependencies:
 `mvn dependency:resolve`
 
 Build assembly package with all dependencies bundled into it:
