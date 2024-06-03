@@ -1,11 +1,12 @@
 package com.giosg.decryptapp;
 
-import javax.crypto.Cipher;
+import java.util.Arrays;
 import java.util.Base64;
+
+import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.util.Arrays;
 
 public class AESDecryption {
 
@@ -14,12 +15,17 @@ public class AESDecryption {
         aesKeyString = aesKeyString.replaceAll(" ", "");
 
         int d = aesKeyString.length()  % 4;
-        if (d == 1) {
-            throw new IllegalArgumentException("Base64 decoding error");
-        } else if (d == 2) {
-            aesKeyString += "==";
-        } else if (d == 3) {
-            aesKeyString += "=";
+        switch (d) {
+            case 1:
+                throw new IllegalArgumentException("Base64 decoding error");
+            case 2:
+                aesKeyString += "==";
+                break;
+            case 3:
+                aesKeyString += "=";
+                break;
+            default:
+                break;
         }
         return  Base64.getUrlDecoder().decode(aesKeyString);
     }
