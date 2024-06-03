@@ -1,13 +1,5 @@
 package com.giosg.decryptapp;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.ParseException;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -18,6 +10,13 @@ import java.util.ArrayList;
 
 import javax.crypto.SecretKey;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,7 +24,7 @@ import org.json.JSONObject;
  * Chat message decryption example app
  */
 public class App {
-    private static String appNameAndUsage = "-k <privatekey.pem> -p <privatekey password> -c <chat.json> -m <messages.json> -o <output file>";
+    private static final String APP_NAME_AND_USAGE = "-k <privatekey.pem> -p <privatekey password> -c <chat.json> -m <messages.json> -o <output file>";
 
     public static void main( String[] args )
     {
@@ -64,7 +63,7 @@ public class App {
         try {
             cmd = parser.parse(options, args);
             if (cmd.hasOption("h")) {
-                formatter.printHelp(appNameAndUsage, options);
+                formatter.printHelp(APP_NAME_AND_USAGE, options);
                 System.exit(0);
             }
 
@@ -120,7 +119,7 @@ public class App {
                         }
 
                     } catch (org.json.JSONException e) {
-                        if (message.getString("type") == "msg") {
+                        if ("msg".equals(message.getString("type"))) {
                             // It is normal that it doesn't exist for join and leave type messages for example
                             System.err.println("Unexpectetly did not find exncrypted content: ");
                             e.printStackTrace();
@@ -136,7 +135,7 @@ public class App {
             }
         } catch (ParseException e) {
             System.out.println(e.getMessage());
-            formatter.printHelp(appNameAndUsage, options);
+            formatter.printHelp(APP_NAME_AND_USAGE, options);
             System.exit(1);
         }
     }
@@ -186,5 +185,9 @@ public class App {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String getAppNameAndUsage() {
+        return APP_NAME_AND_USAGE;
     }
 }
