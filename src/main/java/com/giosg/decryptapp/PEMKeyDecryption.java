@@ -22,6 +22,7 @@ public class PEMKeyDecryption {
     }
 
     public static PrivateKey loadPrivateKey(String pemFilePath, String pemPassword) throws IOException {
+        Security.addProvider(new BouncyCastleProvider());
         JcaPEMKeyConverter converter;
         PrivateKeyInfo keyInfo;
         try (PEMParser pemParser = new PEMParser(new FileReader(pemFilePath))) {

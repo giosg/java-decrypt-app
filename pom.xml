@@ -7,7 +7,7 @@
 
   <groupId>com.giosg.decryptapp</groupId>
   <artifactId>decrypt-app</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.1-SNAPSHOT</version>
 
   <name>decrypt-app</name>
   <url>https://github.com/giosg/java-decrypt-app</url>
