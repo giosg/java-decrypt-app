@@ -23,6 +23,15 @@ public class PEMKeyDecryption {
 
     public static PrivateKey loadPrivateKey(String pemFilePath, String pemPassword) throws IOException {
         Security.addProvider(new BouncyCastleProvider());
+
+        System.out.println("Available providers:");
+        for (Provider provider : Security.getProviders()) {
+            for (Provider.Service service : provider.getServices()) {
+                System.out.println(provider.getName() + ": " + service.getAlgorithm());
+            }
+        }
+        System.out.println("---");
+
         JcaPEMKeyConverter converter;
         PrivateKeyInfo keyInfo;
         try (PEMParser pemParser = new PEMParser(new FileReader(pemFilePath))) {
