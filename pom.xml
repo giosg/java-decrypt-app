@@ -7,7 +7,7 @@
 
   <groupId>com.giosg.decryptapp</groupId>
   <artifactId>decrypt-app</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.2-SNAPSHOT</version>
 
   <name>decrypt-app</name>
   <url>https://github.com/giosg/java-decrypt-app</url>
@@ -27,13 +27,13 @@
     </dependency>
     <dependency>
       <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
-      <version>1.68</version>
+      <artifactId>bcprov-jdk18on</artifactId>
+      <version>1.80</version>
     </dependency>
     <dependency>
       <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpkix-jdk15on</artifactId>
-      <version>1.68</version>
+      <artifactId>bcpkix-jdk18on</artifactId>
+      <version>1.80</version>
     </dependency>
     <dependency>
       <groupId>org.json</groupId>
@@ -96,14 +96,14 @@
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
           <configuration>
+            <descriptors>
+              <descriptor>src/assembly/assembly.xml</descriptor>
+            </descriptors>
             <archive>
               <manifest>
                 <mainClass>com.giosg.decryptapp.App</mainClass>
               </manifest>
             </archive>
-            <descriptorRefs>
-              <descriptorRef>jar-with-dependencies</descriptorRef>
-            </descriptorRefs>
           </configuration>
         </plugin>
       </plugins>

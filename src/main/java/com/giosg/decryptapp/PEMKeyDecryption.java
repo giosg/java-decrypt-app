@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.security.PrivateKey;
 import java.security.Security;
+import java.security.Provider;
 import java.util.Base64;
 
 import javax.crypto.Cipher;
@@ -18,10 +19,18 @@ import org.bouncycastle.openssl.jcajce.JcePEMDecryptorProviderBuilder;
 public class PEMKeyDecryption {
 
     static {
-        Security.addProvider(new BouncyCastleProvider());
+        Security.insertProviderAt(new BouncyCastleProvider(), 1);
     }
 
     public static PrivateKey loadPrivateKey(String pemFilePath, String pemPassword) throws IOException {
+        // System.out.println("Available providers:");
+        // for (Provider provider : Security.getProviders()) {
+        //     for (Provider.Service service : provider.getServices()) {
+        //         System.out.println(provider.getName() + ": " + service.getAlgorithm());
+        //     }
+        // }
+        // System.out.println("---");
+
         JcaPEMKeyConverter converter;
         PrivateKeyInfo keyInfo;
         try (PEMParser pemParser = new PEMParser(new FileReader(pemFilePath))) {
@@ -35,7 +44,7 @@ public class PEMKeyDecryption {
     public static PrivateKeyInfo getPrivateKeyInfo(Object pemObject, String password) throws IOException {
         if (pemObject instanceof PEMEncryptedKeyPair) {
             PEMEncryptedKeyPair encryptedKeyPair = (PEMEncryptedKeyPair) pemObject;
-            JcePEMDecryptorProviderBuilder decryptorProviderBuilder = new JcePEMDecryptorProviderBuilder();
+            JcePEMDecryptorProviderBuilder decryptorProviderBuilder = new JcePEMDecryptorProviderBuilder().setProvider("BC");
             PrivateKeyInfo privateKeyInfo = encryptedKeyPair.decryptKeyPair(decryptorProviderBuilder.build(password.toCharArray())).getPrivateKeyInfo();
             return privateKeyInfo;
         } else {
