@@ -45,7 +45,7 @@ public class PEMKeyDecryption {
     public static PrivateKeyInfo getPrivateKeyInfo(Object pemObject, String password) throws IOException {
         if (pemObject instanceof PEMEncryptedKeyPair) {
             PEMEncryptedKeyPair encryptedKeyPair = (PEMEncryptedKeyPair) pemObject;
-            JcePEMDecryptorProviderBuilder decryptorProviderBuilder = new JcePEMDecryptorProviderBuilder();
+            JcePEMDecryptorProviderBuilder decryptorProviderBuilder = new JcePEMDecryptorProviderBuilder().setProvider("BC");
             PrivateKeyInfo privateKeyInfo = encryptedKeyPair.decryptKeyPair(decryptorProviderBuilder.build(password.toCharArray())).getPrivateKeyInfo();
             return privateKeyInfo;
         } else {
