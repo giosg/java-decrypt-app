@@ -19,12 +19,11 @@ import org.bouncycastle.openssl.jcajce.JcePEMDecryptorProviderBuilder;
 public class PEMKeyDecryption {
 
     static {
-        Security.addProvider(new BouncyCastleProvider());
+        //Security.addProvider(new BouncyCastleProvider());
+        Security.insertProviderAt(new BouncyCastleProvider(), 1);
     }
 
     public static PrivateKey loadPrivateKey(String pemFilePath, String pemPassword) throws IOException {
-        Security.addProvider(new BouncyCastleProvider());
-
         System.out.println("Available providers:");
         for (Provider provider : Security.getProviders()) {
             for (Provider.Service service : provider.getServices()) {
