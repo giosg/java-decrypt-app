@@ -1,0 +1,1 @@
+java -cp "lib/*:bin/decrypt-app-1.2.jar" com.giosg.decryptapp.App -k example_keys/private.pem -p salaisuus -c example_data/chat.json -m example_data/messages.json

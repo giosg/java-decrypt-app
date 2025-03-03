@@ -19,18 +19,17 @@ import org.bouncycastle.openssl.jcajce.JcePEMDecryptorProviderBuilder;
 public class PEMKeyDecryption {
 
     static {
-        //Security.addProvider(new BouncyCastleProvider());
         Security.insertProviderAt(new BouncyCastleProvider(), 1);
     }
 
     public static PrivateKey loadPrivateKey(String pemFilePath, String pemPassword) throws IOException {
-        System.out.println("Available providers:");
-        for (Provider provider : Security.getProviders()) {
-            for (Provider.Service service : provider.getServices()) {
-                System.out.println(provider.getName() + ": " + service.getAlgorithm());
-            }
-        }
-        System.out.println("---");
+        // System.out.println("Available providers:");
+        // for (Provider provider : Security.getProviders()) {
+        //     for (Provider.Service service : provider.getServices()) {
+        //         System.out.println(provider.getName() + ": " + service.getAlgorithm());
+        //     }
+        // }
+        // System.out.println("---");
 
         JcaPEMKeyConverter converter;
         PrivateKeyInfo keyInfo;
